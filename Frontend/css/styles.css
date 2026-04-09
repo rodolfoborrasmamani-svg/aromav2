@@ -1,3 +1,20 @@
 nav {
-  background-color: brown;
+  background-color: #442a03;
+
+  text-decoration-color: aliceblue;
+}
+
+nav link {
+  align-self: center;
+}
+
+.view {
+  display: none;
+}
+.view.active {
+  display: block;
+}
+
+footer {
+  background-color: #facf8f;
 }
