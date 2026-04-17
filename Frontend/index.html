@@ -19,28 +19,40 @@
         <li><a href="#"></a> Contacto</li>
       </ul>
     </nav> -->
-    <nav>
+    <!-- <nav>
       <button onclick="mostrarVista('home')">Inicio</button>
       <button onclick="mostrarVista('menu')">Menú</button>
       <button onclick="mostrarVista('contact')">Contacto</button>
+    </nav> -->
+    <nav>
+      <img src="img/logo.svg.svg" width="200" />
+      <h1>Aroma</h1>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#" class="nav-link" data-view="home">Inicio</a></li>
+        <li><a href="#" class="nav-link" data-view="menu">Menú (<span  id="cart-count">0</span>) </a></li>
+        <li><a href="#" class="nav-link" data-view="contact">Contacto</a></li>
+      </ul>
     </nav>
-    <main>
+     <main>
       <section id="view-home" class="view active">
         <h2>Inicio</h2>
-        <p>Bienvenido a la cafetería</p>
+        <p>Bienvenido a la cafeteria</p>
       </section>
+
       <section id="view-menu" class="view">
-        <h2>Menú</h2>
-        <p>Aqui van los productos</p>
+        <h2>Menu</h2>
+        <p>Nuestros productos disponibles</p>
+        <div id="products-container" class="products-container"></div>
       </section>
+
       <section id="view-contact" class="view">
         <h2>Contacto</h2>
         <p>Aqui va la info de contacto</p>
       </section>
     </main>
-    <footer>
       <p>Derechos Reservados 2026. Desarrollado por Rodofo Borras M.</p>
     </footer>
     <script src="js/app.js"></script>
   </body>
 </html>
+
