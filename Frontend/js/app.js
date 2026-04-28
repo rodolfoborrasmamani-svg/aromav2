@@ -76,6 +76,18 @@ const productos = [
 // console.log(producto[2].precio);
 
 let carrito = [];
+
+function guardarCarrito() {
+  localStorage.setItem("aroma_carrito", JSON.stringify(carrito));
+}
+
+function cargarCarrito() {
+  const carritoGuardado = localStorage.getItem("aroma_carrito");
+  if (carritoGuardado) {
+    carrito = JSON.parse(carritoGuardado);
+  }
+}
+
 function actualizarContador() {
   const contador = document.getElementById("cart-count");
   contador.textContent = carrito.length;
@@ -88,14 +100,6 @@ function actualizarContador() {
   } else {
     contador.classList.add("contador-normal");
   }
-  // Cambiar color si hay más de 1 producto
-  // if (carrito.length > 1) {
-  //   contador.style.backgroundColor = "red";
-  //   contador.style.color = "white";
-  // } else {
-  //   contador.style.backgroundColor = "gray";
-  //   contador.style.color = "black";
-  // }
 }
 
 function renderizarProductos() {
@@ -120,11 +124,23 @@ function renderizarProductos() {
         // alert("Producto agregado:" + id);
 
         const producto = productos.find((p) => p.id == id);
-        carrito.push(producto);
+
+        // carrito.push(producto);
+        // carrito.push(producto);
+        const existente = carrito.find((p) => p.id === producto.id);
+
+        if (existente) {
+          existente.cantidad += 1;
+        } else {
+          carrito.push({ ...producto, cantidad: 1 });
+        }
+
         console.log(producto.nombre);
         alert(`${producto.nombre}:Añadido`);
 
+        guardarCarrito();
         actualizarContador();
+        renderizarCarrito();
       });
     });
 
@@ -151,5 +167,95 @@ function renderizarProductos() {
     // });
   });
 }
+// ==========================
+// CONTADOR CARRITO
+// ==========================
+function actualizarContador() {
+  const contador = document.getElementById("cart-count");
+  contador.textContent = carrito.length;
+}
 
+// ==========================
+// RENDER CARRITO
+// ==========================
+function renderizarCarrito() {
+  const contenedor = document.getElementById("cart-container");
+
+  contenedor.innerHTML = "";
+
+  if (carrito.length === 0) {
+    contenedor.innerHTML = "<p>El carrito está vacío</p>";
+    return;
+  }
+
+  carrito.forEach(function (producto) {
+    contenedor.innerHTML += `
+      <div class="cart-item">
+        <p>${producto.nombre} (x ${producto.cantidad})</p>
+     
+        <span> Bs. ${producto.precio * producto.cantidad}</span>
+      </div>
+    `;
+  });
+
+  const total = carrito.reduce((acc, producto) => {
+    return acc + producto.precio * producto.cantidad;
+  }, 0);
+
+  contenedor.innerHTML += `<h3>Total: Bs. ${total}</h3>
+  `;
+}
+
+function inicializarformulariocontacto() {
+  const form = document.getElementById("contact-form");
+
+  if (!form) return;
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById("contact -name");
+    const email = document.getElementById("contact -email");
+    const mensaje = document.getElementById("contact -message");
+
+    const errorNombre = document.getElementById("error -name");
+    const errorEmail = document.getElementById("error -name");
+    const errorMensaje = document.getElementById("error -name");
+
+    const exito = document.getElementById("forms-sucess");
+    errorNombre.textContent="";
+    errorEmail.textContent="";
+    errorMensaje.textContent="";
+    exito.textContent="";
+
+let valido = true;
+
+
+ if (nombre.value.trim() === "") {
+      errorNombre.textContent = "El nombre es obligatorio";
+      valido = false;
+    }
+
+  
+    if (email.value.trim() === "") {
+      errorEmail.textContent = "El email es obligatorio";
+      valido = false;
+    }
+
+   
+    if (mensaje.value.trim() === "") {
+      errorMensaje.textContent = "El mensaje es obligatorio";
+      valido = false;
+    }
+
+    
+  };
+};
+// ==========================
+// INICIALIZAR
+// ==========================
+guardarCarrito();
+cargarCarrito();
 renderizarProductos();
+renderizarCarrito();
+actualizarContador();

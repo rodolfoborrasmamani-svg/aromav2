@@ -309,3 +309,40 @@ footer p {
   background-color: gray;
   color: black;
 }
+/* CARRITO */
+#cart-container {
+  margin-top: 20px;
+}
+
+.cart-item {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.cart-item span {
+  font-weight: bold;
+  color: #5c3a21;
+}
+.total {
+  color: rgb(172, 50, 50);
+  background-color: #1e4627;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 22px;
+}
+.total {
+  background-color: #5c3a21;
+}
+
+.contact-form {
+  background-color: var(--color-surface);
+border: 1px   solid var(--color border);
+
+}
