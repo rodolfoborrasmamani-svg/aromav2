@@ -1,218 +1,881 @@
-nav {
-  background-color: white;
+/* ================================================
+   AROMA CAFÉ — Estilos principales
+   Organización:
+   1. Variables y Reset
+   2. Tipografía base
+   3. Navbar
+   4. Vistas / Layout principal
+   5. Hero (Inicio)
+   6. Features (tarjetas de inicio)
+   7. Productos (cards del menú)
+   8. Carrito
+   9. Contacto
+   10. Footer
+   11. Botones
+   12. Animaciones
+   13. Responsive (mobile-first)
+================================================ */
 
-  text-decoration-color: rgb(170, 145, 74);
-  border-radius: 25px;
+/* ================================================
+   1. VARIABLES CSS Y RESET
+   Las variables (--nombre) permiten cambiar colores
+   en un solo lugar y que se actualicen en toda la app.
+================================================ */
+:root {
+  /* Paleta de colores principal */
+  --color-primary: #6f4e37; /* Café oscuro — color principal */
+  --color-primary-dk: #4b2e1f; /* Café muy oscuro — títulos */
+  --color-accent: #c08b5c; /* Caramelo — acentos y hover */
+  --color-light: #fdf8f4; /* Crema muy claro — fondo */
+  --color-surface: #ffffff; /* Blanco — tarjetas */
+  --color-text: #3d2b1f; /* Texto principal */
+  --color-text-soft: #7a5c4a; /* Texto secundario */
+  --color-border: rgba(111, 78, 55, 0.12);
+
+  /* Éxito (botón agregar) */
+  --color-success: #2e7d32;
+  --color-success-lt: #43a047;
+
+  /* Sombras reutilizables */
+  --shadow-sm: 0 2px 8px rgba(80, 50, 20, 0.08);
+  --shadow-md: 0 8px 24px rgba(80, 50, 20, 0.12);
+  --shadow-lg: 0 16px 40px rgba(80, 50, 20, 0.16);
+
+  /* Bordes redondeados */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+
+  /* Transición estándar */
+  --transition: 0.25s ease;
 }
 
-nav link {
-  align-self: center;
-}
-
-.view {
-  display: none;
-}
-.view.active {
-  display: block;
-}
-
-footer {
-  background-color: #facf8f;
-}
-
-/* Reset básico */
-* {
+/* Reset: elimina márgenes y padding por defecto del navegador */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Página */
+/* ================================================
+   2. TIPOGRAFÍA BASE
+   - Poppins: títulos (impacto visual)
+   - Inter: cuerpo (legibilidad)
+================================================ */
 body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #5e4626, #efe7dd);
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-light);
+  /* Fondo con patrón sutil de puntos */
+  background-image: radial-gradient(
+    circle,
+    rgba(111, 78, 55, 0.06) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
   min-height: 100vh;
 }
 
-/* NAVBAR */
+h1,
+h2,
+h3 {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.2;
+}
+
+/* ================================================
+   3. NAVBAR
+   - Flotante con glassmorphism (fondo translúcido)
+   - Flex: logo a la izquierda, links a la derecha
+   - Badge rojo sobre el ícono del carrito
+================================================ */
 .navbar {
-  width: 90%;
+  position: sticky; /* Se queda arriba al hacer scroll */
+  top: 16px;
+  z-index: 100;
+
+  width: 92%;
   max-width: 1100px;
-  margin: 24px auto;
-  padding: 14px 28px;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(120, 72, 32, 0.08);
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(80, 50, 20, 0.12);
+  margin: 16px auto 0;
+  padding: 14px 24px;
+
+  /* Glassmorphism: fondo blanco semitransparente + blur */
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
 
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
 }
 
-/* MARCA */
+/* Logo + nombre */
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 20px;
+  text-decoration: none;
+  flex-shrink: 0;
 }
 
 .brand-icon {
-  width: 42px;
-  height: 42px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
 }
 
 .brand-name {
-  font-size: 1.5rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.4rem;
   font-weight: 700;
-  color: #4b2e1f;
+  color: var(--color-primary-dk);
   letter-spacing: 0.5px;
 }
 
-/* LINKS */
+/* Lista de links */
 .nav-links {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 4px;
 }
 
-.nav-links li {
-  list-style: none;
-}
-
+/* Cada link de navegación */
 .nav-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   text-decoration: none;
-  color: #5c3a21;
-  font-weight: 600;
-  padding: 10px 16px;
-  border-radius: 999px;
-  transition: all 0.3s ease;
+  color: var(--color-text-soft);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  transition:
+    background var(--transition),
+    color var(--transition),
+    transform var(--transition);
   position: relative;
+  white-space: nowrap;
 }
 
-/* Hover bonito */
+/* Hover: fondo café suave */
 .nav-link:hover {
-  background: #6f4e37;
-  color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(111, 78, 55, 0.22);
+  background: rgba(111, 78, 55, 0.08);
+  color: var(--color-primary);
+  transform: translateY(-1px);
 }
 
-/* Link activo opcional */
+/* Link activo: fondo sólido */
 .nav-link.active {
-  background: #3e2723;
+  background: var(--color-primary);
   color: #fff;
-  box-shadow: 0 8px 18px rgba(62, 39, 35, 0.25);
+  box-shadow: 0 4px 12px rgba(111, 78, 55, 0.3);
 }
 
-/* .view {
+.nav-link.active:hover {
+  background: var(--color-primary-dk);
+  color: #fff;
+}
+
+/* Ícono SVG del carrito */
+.cart-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Badge rojo con el número de items */
+.cart-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  background: #e53935;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  /* Animación al actualizar */
+  transition: transform 0.2s ease;
+}
+
+/* Cuando el badge cambia, "rebota" (activado por JS) */
+.cart-badge.bump {
+  transform: scale(1.4);
+}
+
+/* Botón hamburguesa (oculto en desktop) */
+.nav-toggle {
   display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
 }
 
-.view.active {
+.nav-toggle span {
   display: block;
-} */
-
-/* MAIN */
-main {
-  width: 90%;
-  max-width: 1100px;
-  margin: 10px auto 30px;
+  width: 24px;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 2px;
+  transition:
+    transform var(--transition),
+    opacity var(--transition);
 }
 
-/* VISTAS DE LA SPA */
+/* Animación X al abrir el menú */
+.nav-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ================================================
+   4. LAYOUT PRINCIPAL
+   - main contiene todas las vistas
+   - .view se oculta/muestra con JS (clase "active")
+================================================ */
+main {
+  width: 92%;
+  max-width: 1100px;
+  margin: 24px auto 32px;
+}
+
+/* Todas las vistas están ocultas por defecto */
 .view {
   display: none;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px);
-  border-radius: 24px;
-  padding: 40px 32px;
-  box-shadow: 0 12px 35px rgba(80, 50, 20, 0.12);
-  border: 1px solid rgba(120, 72, 32, 0.08);
-  min-height: 420px;
-  animation: fadeIn 0.35s ease;
+  animation: fadeSlideIn 0.35s ease forwards;
 }
 
+/* Solo la vista activa se muestra */
 .view.active {
   display: block;
 }
 
-/* TÍTULOS Y TEXTO */
-.view h2 {
+/* Encabezado de sección (título + subtítulo) */
+.section-header {
+  margin-bottom: 32px;
+}
+
+.section-header h2 {
   font-size: 2rem;
-  color: #4b2e1f;
-  margin-bottom: 14px;
+  color: var(--color-primary-dk);
+  margin-bottom: 6px;
+}
+
+/* Línea decorativa bajo el título */
+.section-header h2::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+.section-header p {
+  color: var(--color-text-soft);
+  font-size: 1rem;
+  margin-top: 12px;
+}
+
+/* ================================================
+   5. HERO (Vista Inicio)
+   - Dos columnas: texto + visual decorativo
+   - Diseño llamativo con CTA (Call To Action)
+================================================ */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 56px 48px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  margin-bottom: 24px;
+  overflow: hidden;
   position: relative;
 }
 
-.view h2::after {
+/* Círculo decorativo de fondo */
+.hero::before {
   content: "";
-  display: block;
-  width: 70px;
-  height: 4px;
-  background: linear-gradient(90deg, #6f4e37, #c08b5c);
-  border-radius: 10px;
-  margin-top: 10px;
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(
+    circle,
+    rgba(192, 139, 92, 0.15),
+    transparent 70%
+  );
+  border-radius: 50%;
+  pointer-events: none;
 }
 
-.view p {
-  font-size: 1.08rem;
-  color: #5f4635;
+.hero-text {
+  flex: 1;
+  max-width: 520px;
+}
+
+/* Etiqueta pequeña sobre el título */
+.hero-tag {
+  display: inline-block;
+  background: rgba(111, 78, 55, 0.1);
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  margin-bottom: 16px;
+  letter-spacing: 0.3px;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 4vw, 3rem); /* Tamaño fluido según pantalla */
+  color: var(--color-primary-dk);
+  margin-bottom: 16px;
+}
+
+.hero-subtitle {
+  color: var(--color-text-soft);
+  font-size: 1.05rem;
   line-height: 1.7;
-  max-width: 700px;
-  margin-top: 18px;
+  margin-bottom: 32px;
+  max-width: 420px;
 }
 
-/* ESTILO DIFERENTE PARA CADA SECCIÓN */
-#view-home {
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.92)),
-    url("img/bg-home.jpg") center/cover no-repeat;
+/* Elemento visual decorativo del hero */
+.hero-visual {
+  flex-shrink: 0;
 }
 
-#view-menu {
+.hero-circle {
+  width: 200px;
+  height: 200px;
   background: linear-gradient(
-    rgba(255, 255, 255, 0.9),
-    rgba(255, 255, 255, 0.94)
+    135deg,
+    var(--color-accent),
+    var(--color-primary)
   );
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-lg);
+  animation: floatUpDown 3s ease-in-out infinite; /* Animación flotante */
 }
 
-#view-contact {
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.9),
-    rgba(255, 255, 255, 0.94)
-  );
+.hero-emoji {
+  font-size: 5rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
-/* FOOTER */
+/* ================================================
+   6. FEATURES (Tarjetas de características)
+================================================ */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.feature-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.feature-icon {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.feature-card h3 {
+  font-size: 1rem;
+  color: var(--color-primary-dk);
+  margin-bottom: 6px;
+}
+
+.feature-card p {
+  font-size: 0.88rem;
+  color: var(--color-text-soft);
+}
+
+/* ================================================
+   7. PRODUCTOS — Cards del menú
+   - Grid responsive con auto-fit
+   - Hover con elevación y sombra
+   - Imagen/emoji destacado en la parte superior
+================================================ */
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px;
+}
+
+/* Tarjeta de producto */
+.product-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  /* Transición suave al hacer hover */
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Área de imagen/emoji del producto */
+.product-image {
+  background: linear-gradient(135deg, #fdf0e4, #f5dfc0);
+  padding: 28px 16px;
+  text-align: center;
+  font-size: 3.5rem;
+  line-height: 1;
+}
+
+/* Información del producto */
+.product-info {
+  padding: 18px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 6px;
+}
+
+.product-card h3 {
+  font-size: 1.05rem;
+  color: var(--color-primary-dk);
+}
+
+/* Descripción del producto */
+.product-description {
+  font-size: 0.88rem;
+  color: var(--color-text-soft);
+  flex: 1; /* Empuja el precio y botón hacia abajo */
+}
+
+/* Precio destacado */
+.product-price {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-top: 4px;
+}
+
+/* Botón "Agregar al carrito" */
+.btn-add {
+  margin-top: 12px;
+  padding: 10px 16px;
+  width: 100%;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-success);
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-add:hover {
+  background: var(--color-success-lt);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(46, 125, 50, 0.3);
+}
+
+/* Efecto "click" al presionar */
+.btn-add:active {
+  transform: scale(0.97);
+}
+
+/* ================================================
+   8. CARRITO DE COMPRAS
+   - Lista de items con imagen, nombre, precio
+   - Controles de cantidad (+ / -)
+   - Total destacado
+   - Botón de checkout llamativo
+================================================ */
+#cart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Mensaje carrito vacío */
+.cart-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-text-soft);
+}
+
+.cart-empty-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.cart-empty h3 {
+  font-size: 1.2rem;
+  color: var(--color-primary-dk);
+  margin-bottom: 8px;
+}
+
+/* Cada item del carrito */
+.cart-item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+  animation: fadeSlideIn 0.25s ease;
+}
+
+/* Emoji/imagen del item */
+.cart-item-emoji {
+  font-size: 2rem;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #fdf0e4, #f5dfc0);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Nombre y precio del item */
+.cart-item-info {
+  flex: 1;
+}
+
+.cart-item-name {
+  font-weight: 600;
+  color: var(--color-primary-dk);
+  font-size: 0.95rem;
+}
+
+.cart-item-price {
+  font-size: 0.88rem;
+  color: var(--color-text-soft);
+  margin-top: 2px;
+}
+
+/* Controles de cantidad */
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.qty-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    transform var(--transition);
+  line-height: 1;
+}
+
+.qty-btn:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.qty-value {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-primary-dk);
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Precio total del item */
+.cart-item-total {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-primary);
+  flex-shrink: 0;
+  min-width: 64px;
+  text-align: right;
+}
+
+/* Resumen del total */
+.cart-summary {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px 28px;
+  box-shadow: var(--shadow-sm);
+  margin-top: 8px;
+}
+
+.cart-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.95rem;
+  color: var(--color-text-soft);
+}
+
+.cart-summary-row:last-of-type {
+  border-bottom: none;
+}
+
+/* Fila del total final */
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  margin-top: 8px;
+  border-top: 2px solid var(--color-border);
+}
+
+.cart-total-label {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-primary-dk);
+}
+
+.cart-total-amount {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+/* ================================================
+   9. CONTACTO
+================================================ */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.contact-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.contact-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.contact-card h3 {
+  font-size: 1rem;
+  color: var(--color-primary-dk);
+  margin-bottom: 6px;
+}
+
+.contact-card p {
+  font-size: 0.9rem;
+  color: var(--color-text-soft);
+}
+
+/* ================================================
+   10. FOOTER
+================================================ */
 footer {
-  width: 90%;
+  width: 92%;
   max-width: 1100px;
   margin: 0 auto 24px;
   padding: 18px 24px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(120, 72, 32, 0.08);
-  border-radius: 18px;
-  box-shadow: 0 8px 24px rgba(80, 50, 20, 0.08);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
 
 footer p {
-  color: #6a4a35;
-  font-size: 0.95rem;
-  letter-spacing: 0.2px;
+  color: var(--color-text-soft);
+  font-size: 0.9rem;
 }
 
-/* ANIMACIÓN SUAVE */
-@keyframes fadeIn {
+footer strong {
+  color: var(--color-primary);
+}
+
+/* ================================================
+   11. BOTONES REUTILIZABLES
+   .btn-primary — botón principal (CTA)
+   .btn-checkout — botón de pago
+================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: var(--radius-full);
+  font-family: "Inter", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition:
+    background var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(111, 78, 55, 0.35);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dk);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(111, 78, 55, 0.4);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+/* Botón de checkout (verde llamativo) */
+.btn-checkout {
+  width: 100%;
+  margin-top: 20px;
+  padding: 16px;
+  background: linear-gradient(
+    135deg,
+    var(--color-success),
+    var(--color-success-lt)
+  );
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.35);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    filter var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: "Poppins", sans-serif;
+}
+
+.btn-checkout:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(46, 125, 50, 0.45);
+  filter: brightness(1.05);
+}
+
+.btn-checkout:active {
+  transform: scale(0.98);
+}
+
+/* ================================================
+   12. ANIMACIONES
+================================================ */
+
+/* Entrada suave: aparece desde abajo con fade */
+@keyframes fadeSlideIn {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -220,129 +883,161 @@ footer p {
   }
 }
 
-.products-container {
-  margin-top: 24px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-}
-
-.product-card {
-  background-color: #c08b5c;
-  padding: 10px;
-  border-radius: 20px;
-  color: black;
-  text-align: center;
-  p {
-    color: black;
+/* Flotación suave del emoji del hero */
+@keyframes floatUpDown {
+  0%,
+  100% {
+    transform: translateY(0);
   }
-  span {
-    color: red;
+  50% {
+    transform: translateY(-12px);
   }
 }
-/* .product-card:hover {
-  background-color: #64452a;
-  color: white;
-  p {
-    color: white;
+
+/* ================================================
+   13. RESPONSIVE — Mobile First
+   Breakpoints:
+   - < 640px  → móvil
+   - 640–1024 → tablet
+   - > 1024   → desktop (estilos base)
+================================================ */
+
+/* TABLET y MÓVIL */
+@media (max-width: 768px) {
+  /* Navbar: mostrar botón hamburguesa */
+  .nav-toggle {
+    display: flex;
   }
-  span {
-    color: white;
+
+  /* Links: se apilan verticalmente y se ocultan */
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    box-shadow: var(--shadow-lg);
   }
-} */
-/* .product-description {
-  color: rgb(0, 0, 0);
+
+  /* Clase "open" la agrega el JS al hacer click en hamburguesa */
+  .nav-links.open {
+    display: flex;
+    animation: fadeSlideIn 0.2s ease;
+  }
+
+  /* El navbar necesita position relative para el menú absoluto */
+  .navbar {
+    position: relative;
+    top: 0;
+    margin: 12px auto;
+  }
+
+  /* Hero: una sola columna */
+  .hero {
+    flex-direction: column;
+    padding: 36px 24px;
+    text-align: center;
+  }
+
+  .hero-subtitle {
+    margin: 0 auto 28px;
+  }
+
+  .hero-circle {
+    width: 140px;
+    height: 140px;
+  }
+
+  .hero-emoji {
+    font-size: 3.5rem;
+  }
+
+  /* Productos: 2 columnas en tablet */
+  .products-container {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  /* Item del carrito: ajuste en pantallas pequeñas */
+  .cart-item {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .cart-item-total {
+    width: 100%;
+    text-align: right;
+  }
 }
 
-.product-description:hover {
-  color: white;
-} */
+/* MÓVIL pequeño */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
 
-/* .product-price {
-  color: brown;
-  font-weight: 700;
-} */
+  /* Productos: 1 columna */
+  .products-container {
+    grid-template-columns: 1fr;
+  }
 
-.btn-add {
-  margin-top: 15px;
-  padding: 10px;
-  width: 100%;
-  border: none;
-  border-radius: 10px;
-  background: #721808;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn-add:hover {
-  background: #ad5040;
-  color: black;
-  transform: translateY(-2px);
-}
-.btn-detail {
-  margin-top: 15px;
-  padding: 10px;
-  width: 100%;
-  border: none;
-  border-radius: 10px;
-  background: #721808;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn-detail:hover {
-  background: #ad5040;
-  color: black;
-  transform: translateY(-2px);
-}
-.contador-activo {
-  background-color: red;
-  color: white;
-  border-radius: 80px;
-}
-
-.contador-normal {
-  background-color: gray;
-  color: black;
-}
-/* CARRITO */
-#cart-container {
-  margin-top: 20px;
-}
-
-.cart-item {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-}
-
-.cart-item span {
-  font-weight: bold;
-  color: #5c3a21;
-}
-.total {
-  color: rgb(172, 50, 50);
-  background-color: #1e4627;
-  padding: 10px;
-  border-radius: 8px;
-  text-align: center;
-  margin-top: 10px;
-  font-size: 22px;
-}
-.total {
-  background-color: #5c3a21;
+  .section-header h2 {
+    font-size: 1.6rem;
+  }
 }
 
 .contact-form {
-  background-color: var(--color-surface);
-border: 1px   solid var(--color border);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  max-width: 680px;
+}
 
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-primary-dk);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  color: var(--color-text);
+  background: var(--color-light);
+}
+
+.error-msg {
+  display: block;
+  color: red;
+  margin-top: 4px;
+}
+
+.success-msg {
+  margin-top: 16px;
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.input-error {
+  border-color: red;
+  box-shadow: 0 0 0 3px red !important;
 }

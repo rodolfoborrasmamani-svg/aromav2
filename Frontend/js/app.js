@@ -1,10 +1,6 @@
-// function mostrarVista(vista) {
-//   document.getElementById("view-home").classList.remove("active");
-//   document.getElementById("view-menu").classList.remove("active");
-//   document.getElementById("view-contact").classList.remove("active");
-//   document.getElementById("view-" + vista).classList.add("active");
-// }
-
+// ==========================
+// NAVEGACIÓN SPA
+// ==========================
 const enlaces = document.querySelectorAll(".nav-link");
 
 enlaces.forEach(function (enlace) {
@@ -21,60 +17,44 @@ enlaces.forEach(function (enlace) {
   });
 });
 
-// const persona = {
-// id:1
-// nombre: "Carlos",
-// apellido: "Guzman",
-// edad:21,
-
-// id:2
-// nombre: "Mariel",
-// apellido: "Guzman",
-// edad:35,
-
-// }
+// ==========================
+// PRODUCTOS
+// Emojis añadidos para representar visualmente cada producto
+// ==========================
 const productos = [
   {
     id: 1,
-    nombre: "Cafe americano",
-    descripcion: "Cafe negro clasico",
+    nombre: "Café Americano",
+    descripcion: "Café negro clásico",
     precio: 12,
-    Image: "img / capuccino.jpg",
+    emoji: "☕",
   },
   {
     id: 2,
     nombre: "Capuccino",
-    descripcion: "Espresso con leche",
+    descripcion: "Café con leche espumosa",
     precio: 18,
+    emoji: "🍵",
   },
   {
     id: 3,
     nombre: "Latte",
-    descripcion: "Cafe con abundante leche",
+    descripcion: "Café suave con leche",
     precio: 16,
+    emoji: "🥛",
   },
   {
     id: 4,
     nombre: "Brownie",
     descripcion: "Postre de chocolate",
     precio: 10,
-  },
-  {
-    id: 5,
-    nombre: "Cafe con leche",
-    descripcion: "Cafe con un poco de leche",
-    precio: 8,
-  },
-  {
-    id: 6,
-    nombre: "Te verde",
-    descripcion: "Te adelgazante de sabor amargo",
-    precio: 7,
+    emoji: "🍫",
   },
 ];
-//  console.log(producto[2].nombre);
-// console.log(producto[2].precio);
 
+// ==========================
+// ESTADO DEL CARRITO
+// ==========================
 let carrito = [];
 
 function guardarCarrito() {
@@ -88,174 +68,245 @@ function cargarCarrito() {
   }
 }
 
-function actualizarContador() {
-  const contador = document.getElementById("cart-count");
-  contador.textContent = carrito.length;
-
-  //CONTADOR CUANDO SUPERA A 1
-  contador.classList.remove("contador-activo", "contador-normal");
-
-  if (carrito.length > 1) {
-    contador.classList.add("contador-activo");
-  } else {
-    contador.classList.add("contador-normal");
-  }
-}
-
+// ==========================
+// RENDER PRODUCTOS
+// Se usa la nueva estructura HTML con clases mejoradas
+// ==========================
 function renderizarProductos() {
   const contenedor = document.getElementById("products-container");
+
   contenedor.innerHTML = "";
+
   productos.forEach(function (producto) {
-    contenedor.innerHTML += `<div class="product-card">
-    <h3>${producto.nombre}</h3>
-    <p class="product-description">${producto.descripcion}</p>
-    <span class="product-price">Bs. ${producto.precio}</span>
-    <br>
-    <button class="btn-add" data-id="${producto.id}">Agregar al carrito</button>
-     <button class="btn-detail" data-id="${producto.id}">ver detalles</button>
-  </div>`;
+    contenedor.innerHTML += `
+      <div class="product-card">
 
-    //funcionamiento de botones que se añaden de los carritos
-    const botones = document.querySelectorAll(".btn-add");
+        <!-- Área visual del producto (emoji como imagen) -->
+        <div class="product-image">${producto.emoji}</div>
 
-    botones.forEach(function (boton) {
-      boton.addEventListener("click", function () {
-        const id = parseInt(this.dataset.id);
-        // alert("Producto agregado:" + id);
+        <!-- Información del producto -->
+        <div class="product-info">
+          <h3>${producto.nombre}</h3>
+          <p class="product-description">${producto.descripcion}</p>
+          <span class="product-price">Bs. ${producto.precio}</span>
 
-        const producto = productos.find((p) => p.id == id);
+          <button class="btn-add" data-id="${producto.id}">
+            + Agregar al carrito
+          </button>
+        </div>
 
-        // carrito.push(producto);
-        // carrito.push(producto);
-        const existente = carrito.find((p) => p.id === producto.id);
+      </div>
+    `;
+  });
 
-        if (existente) {
-          existente.cantidad += 1;
-        } else {
-          carrito.push({ ...producto, cantidad: 1 });
-        }
+  // EVENTOS BOTONES — lógica original sin cambios
+  const botones = document.querySelectorAll(".btn-add");
 
-        console.log(producto.nombre);
-        alert(`${producto.nombre}:Añadido`);
+  botones.forEach(function (boton) {
+    boton.addEventListener("click", function () {
+      const id = parseInt(this.dataset.id);
+      const producto = productos.find((p) => p.id === id);
 
-        guardarCarrito();
-        actualizarContador();
-        renderizarCarrito();
-      });
+      const existente = carrito.find((p) => p.id === producto.id);
+
+      if (existente) {
+        existente.cantidad += 1;
+      } else {
+        carrito.push({ ...producto, cantidad: 1 });
+      }
+      guardarCarrito();
+      actualizarContador();
+      renderizarCarrito();
+
+      // Microinteracción: feedback visual en el botón
+      this.textContent = "✓ Agregado";
+      this.style.background = "#1b5e20";
+      const btn = this;
+      setTimeout(function () {
+        btn.textContent = "+ Agregar al carrito";
+        btn.style.background = "";
+      }, 1000);
     });
-
-    document.querySelectorAll(".btn-detail").forEach(function (boton) {
-      boton.addEventListener("click", function () {
-        const id = this.dataset.id;
-
-        const producto = productos.find((p) => p.id == id);
-
-        alert(
-          `Nombre: ${producto.nombre}\nDescripción: ${producto.descripcion}\nPrecio: Bs. ${producto.precio}`,
-        );
-      });
-    });
-
-    // funcionamiento del boton de detalles
-
-    // const botones = document.querySelectorAll(".btn-detail");
-    // botones.forEach(function (boton) {
-    //   boton.addEventListener("click", function () {
-    //     const id = this.dataset.id;
-    //     alert("Producto agregado:" + id);
-    //   });
-    // });
   });
 }
+
 // ==========================
 // CONTADOR CARRITO
+// Actualiza el badge del navbar con animación
 // ==========================
 function actualizarContador() {
   const contador = document.getElementById("cart-count");
-  contador.textContent = carrito.length;
+
+  // Total de unidades (suma de cantidades)
+  const total = carrito.reduce((acc, p) => acc + p.cantidad, 0);
+  contador.textContent = total;
+
+  // Animación "bump" al actualizar
+  contador.classList.remove("bump");
+  void contador.offsetWidth; // Fuerza reflow para reiniciar la animación
+  contador.classList.add("bump");
+  setTimeout(() => contador.classList.remove("bump"), 300);
 }
 
 // ==========================
 // RENDER CARRITO
+// Muestra items con controles de cantidad y total
 // ==========================
 function renderizarCarrito() {
   const contenedor = document.getElementById("cart-container");
 
   contenedor.innerHTML = "";
 
+  // Carrito vacío
   if (carrito.length === 0) {
-    contenedor.innerHTML = "<p>El carrito está vacío</p>";
+    contenedor.innerHTML = `
+      <div class="cart-empty">
+        <span class="cart-empty-icon">🛒</span>
+        <h3>Tu carrito está vacío</h3>
+        <p>Agrega productos desde el menú</p>
+      </div>
+    `;
     return;
   }
 
+  // Renderizar cada item
   carrito.forEach(function (producto) {
     contenedor.innerHTML += `
       <div class="cart-item">
-        <p>${producto.nombre} (x ${producto.cantidad})</p>
-     
-        <span> Bs. ${producto.precio * producto.cantidad}</span>
+
+        <!-- Emoji del producto -->
+        <div class="cart-item-emoji">${producto.emoji}</div>
+
+        <!-- Nombre y precio unitario -->
+        <div class="cart-item-info">
+          <p class="cart-item-name">${producto.nombre}</p>
+          <p class="cart-item-price">Bs. ${producto.precio} c/u</p>
+        </div>
+
+        <!-- Controles de cantidad -->
+        <div class="cart-item-controls">
+          <button class="qty-btn" data-action="decrease" data-id="${producto.id}">−</button>
+          <span class="qty-value">${producto.cantidad}</span>
+          <button class="qty-btn" data-action="increase" data-id="${producto.id}">+</button>
+        </div>
+
+        <!-- Subtotal del item -->
+        <div class="cart-item-total">
+          Bs. ${(producto.precio * producto.cantidad).toFixed(2)}
+        </div>
+
       </div>
     `;
   });
 
+  // Calcular total general
   const total = carrito.reduce((acc, producto) => {
     return acc + producto.precio * producto.cantidad;
   }, 0);
 
-  contenedor.innerHTML += `<h3>Total: Bs. ${total}</h3>
+  // Resumen y botón de checkout
+  contenedor.innerHTML += `
+    <div class="cart-summary">
+      <div class="cart-summary-row">
+        <span>Subtotal</span>
+        <span>Bs. ${total.toFixed(2)}</span>
+      </div>
+      <div class="cart-summary-row">
+        <span>Envío</span>
+        <span>Gratis 🎉</span>
+      </div>
+      <div class="cart-total-row">
+        <span class="cart-total-label">Total</span>
+        <span class="cart-total-amount">Bs. ${total.toFixed(2)}</span>
+      </div>
+      <button class="btn-checkout" onclick="alert('¡Pedido confirmado! Gracias por tu compra 🎉')">
+        🛍️ Confirmar Pedido
+      </button>
+    </div>
   `;
+
+  // Eventos para los botones + y −
+  contenedor.querySelectorAll(".qty-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const id = parseInt(this.dataset.id);
+      const accion = this.dataset.action;
+      const item = carrito.find((p) => p.id === id);
+
+      if (!item) return;
+
+      if (accion === "increase") {
+        item.cantidad += 1;
+      } else if (accion === "decrease") {
+        item.cantidad -= 1;
+        // Si llega a 0, eliminar del carrito
+        if (item.cantidad <= 0) {
+          carrito = carrito.filter((p) => p.id !== id);
+        }
+      }
+      guardarCarrito();
+      actualizarContador();
+      renderizarCarrito();
+    });
+  });
 }
 
-function inicializarformulariocontacto() {
+function inicializarFormularioContacto() {
   const form = document.getElementById("contact-form");
-
   if (!form) return;
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const nombre = document.getElementById("contact -name");
-    const email = document.getElementById("contact -email");
-    const mensaje = document.getElementById("contact -message");
+    const nombre = document.getElementById("contact-name");
+    const email = document.getElementById("contact-email");
+    const mensaje = document.getElementById("contact-message");
 
-    const errorNombre = document.getElementById("error -name");
-    const errorEmail = document.getElementById("error -name");
-    const errorMensaje = document.getElementById("error -name");
+    const errorNombre = document.getElementById("error-name");
+    const errorEmail = document.getElementById("error-email");
+    const errorMensaje = document.getElementById("error-message");
 
-    const exito = document.getElementById("forms-sucess");
-    errorNombre.textContent="";
-    errorEmail.textContent="";
-    errorMensaje.textContent="";
-    exito.textContent="";
+    const exito = document.getElementById("form-success");
 
-let valido = true;
+    errorNombre.textContent = "";
+    errorEmail.textContent = "";
+    errorMensaje.textContent = "";
+    exito.textContent = "";
 
+    nombre.classList.remove("input-error");
+    email.classList.remove("input-error");
+    mensaje.classList.remove("input-error");
 
- if (nombre.value.trim() === "") {
+    let valido = true;
+
+    if (nombre.value.trim() === "") {
       errorNombre.textContent = "El nombre es obligatorio";
+      nombre.classList.add("input-error");
       valido = false;
     }
 
-  
-    if (email.value.trim() === "") {
+    if (nombre.value.trim() === "") {
       errorEmail.textContent = "El email es obligatorio";
+      email.classList.add("input-error");
       valido = false;
     }
 
-   
-    if (mensaje.value.trim() === "") {
+    if (nombre.value.trim() === "") {
       errorMensaje.textContent = "El mensaje es obligatorio";
+      mensaje.classList.add("input-error");
       valido = false;
     }
+    if (!valido) return;
 
-    
-  };
-};
+    exito.textContent = "Mensaje enviado correctamente";
+    form.reset();
+  });
+}
+
 // ==========================
 // INICIALIZAR
 // ==========================
-guardarCarrito();
 cargarCarrito();
 renderizarProductos();
 renderizarCarrito();
 actualizarContador();
+inicializarFormularioContacto();
